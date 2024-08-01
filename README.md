@@ -41,8 +41,7 @@ This is a Flask application to celebrate your fiancée's birthday with a beautif
 
 ## File Structure
 
-https://i.imgur.com/B9mSBXZ.png
-
+![File_Structure](http://url/to/img.png](https://i.imgur.com/B9mSBXZ.png)
 
 ## Templates
 
