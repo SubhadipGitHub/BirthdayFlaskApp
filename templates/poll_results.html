@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Poll Results</h1>
+<ul>
+    <li>Kind: {{ poll_results.kind }}</li>
+    <li>Funny: {{ poll_results.funny }}</li>
+    <li>Smart: {{ poll_results.smart }}</li>
+    <li>Beautiful: {{ poll_results.beautiful }}</li>
+</ul>
+{% endblock %}

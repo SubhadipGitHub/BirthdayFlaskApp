@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Vote for her best characteristic</h1>
+    <form method="post">
+        <label>
+            <input type="radio" name="characteristic" value="kind" required> Kind
+        </label>
+        <label>
+            <input type="radio" name="characteristic" value="funny" required> Funny
+        </label>
+        <label>
+            <input type="radio" name="characteristic" value="smart" required> Smart
+        </label>
+        <label>
+            <input type="radio" name="characteristic" value="beautiful" required> Beautiful
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="countdown-wrapper" id="countdown-wrapper">
+        <h1>Countdown to Her Special Day</h1>
+        <div id="countdown"></div>
+        <p>We can't wait to celebrate this special day with her!</p>
+    </div>
+    <div class="birthday-wrapper" id="birthday-wrapper" style="display:none;">
+        <h1>Happy Birthday!</h1>
+        <div class="birthday-message" id="birthday-message"></div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/countdown.js') }}"></script>
+{% endblock %}
