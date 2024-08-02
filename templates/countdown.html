@@ -1,16 +1,181 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    /*override material style*/
+    h1 {
+      font-size: 2.2rem;
+    }
+    .responsive {
+        display: block;
+    }
+
+    .gallery {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .gallery img {
+        border-radius: 50%;
+        width: 100%;
+        height: auto;
+    }
+
+    .desc {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .desc h4 {
+        margin: 10px 0;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .desc span {
+        display: block;
+        font-size: 1em;
+    }
+</style>
 <div class="container">
-    <div class="countdown-wrapper" id="countdown-wrapper">
+    <div class="countdown-wrapper" id="countdown-wrapper">      
         <h1>Countdown to Her Special Day</h1>
+        <img src="https://media.giphy.com/media/KOfp5sCYol4S4/200.gif" alt="Loading Gif">
         <div id="countdown"></div>
         <p>We can't wait to celebrate this special day with her!</p>
     </div>
+    <hr>
     <div class="birthday-wrapper" id="birthday-wrapper" style="display:none;">
-        <h1>Happy Birthday!</h1>
         <div class="birthday-message" id="birthday-message"></div>
+        <br>        
+        <!-- Material Design Button -->
+        <a class="waves-effect waves-light btn-large" id="openLetterButton">Open Your Letter</a>
+        
+        <!-- Modal Structure -->
+        <div id="letterModal" class="modal">
+            <div class="modal-content">
+                <h4>A Sweet Letter for You</h4>
+                <p>
+                    Dear {{ name }},
+                    <br><br>
+                    I remember the first time we met. It was like a scene from a movie, and I felt an instant connection with you. From that moment on, I knew there was something truly special about you.
+                    <br><br>
+                    Your kindness, intelligence, and sense of humor are just a few of the countless reasons I find you so remarkable. Your smile lights up my day, and your love and support make everything feel possible.
+                    <br><br>
+                    On your special day, I want you to know how deeply I cherish you and how grateful I am to have you in my life. Happy Birthday, my love!
+                    <br><br>
+                    Forever yours,
+                    <br>
+                    Subho
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
     </div>
-</div>
+    <br>
+    <h4>Astronomical Prediction - August 12th [ LEO ]</h4>
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="https://www.instagram.com/p/Cd3duw7vYpl1MGFrZH6I71bOMiqkhVjySLcR3I0/?img_index=1">
+                <img src="https://png.pngtree.com/png-clipart/20230212/ourmid/pngtree-woman-powerself-confident-png-image_6594017.png" alt="Confident">
+            </a>
+            <div class="desc">
+                <h4>Confident</h4>
+                <span>Leos are known for their self-assurance and strong presence. They often exude confidence and can be quite charismatic.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="https://www.instagram.com/p/Cd3duw7vYpl1MGFrZH6I71bOMiqkhVjySLcR3I0/?img_index=1">
+                <img src="https://static.thenounproject.com/png/968825-200.png" alt="Generous">
+            </a>
+            <div class="desc">
+                <h4>Generous</h4>
+                <span>They have a big heart and are usually very giving. They enjoy sharing their time, resources, and affection with others.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="https://www.instagram.com/p/Cd3duw7vYpl1MGFrZH6I71bOMiqkhVjySLcR3I0/?img_index=1">
+                <img src="https://webstockreview.net/images/graph-clipart-crisis-16.png" alt="Loyal">
+            </a>
+            <div class="desc">
+                <h4>Loyal</h4>
+                <span>They are incredibly loyal to their loved ones and expect the same in return. They value deep connections and are protective of their close relationships.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+            <a target="_blank" href="https://www.instagram.com/p/Cd3duw7vYpl1MGFrZH6I71bOMiqkhVjySLcR3I0/?img_index=1">
+                <img src="http://clipart-library.com/images/yTkrkABgc.png" alt="Ambitious">
+            </a>
+            <div class="desc">
+                <h4>Ambitious</h4>
+                <span>Leos are goal-oriented and have a strong drive to achieve success. They are determined and willing to put in the effort required.</span>
+            </div>
+        </div>
+    </div>
+
+          
+          <div class="clearfix"></div>
+          <br>
+    </div>
+    <!-- Include Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- JavaScript for Modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+
+            // Initialize the modal
+            var modalInstance = M.Modal.getInstance(document.getElementById('letterModal'));
+
+            // Open modal when button is clicked
+            document.getElementById('openLetterButton').addEventListener('click', function() {
+                modalInstance.open();
+            });
+        });
+    </script>
+
+    <!-- Additional CSS for Modal -->
+    <style>
+        .modal {
+            max-height: 80%; /* Adjust for different screen sizes */
+            width: 90%;
+        }
+
+        .modal-content {
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        .modal-footer {
+            text-align: center;
+        }
+
+        .modal-close {
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .modal-close:hover {
+            background-color: #555;
+        }
+    </style>
 <script src="{{ url_for('static', filename='js/countdown.js') }}"></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 // Set the date we're counting down to
 var countDownDate = new Date("Aug 2, 2024 00:00:00").getTime();
 
-var message = "Happy Birthday to the most wonderful person in my life. You light up my world and make every day special. I love you more than words can express.";
+var message = "Happy Birthday Rim ,to the most wonderful person in my life. You light up my world and make every day special. I love you more than words can express.";
 var gif_url = "https://media.tenor.com/DhFPo_LQGt4AAAAj/alice-sticker-alice-animated.gif";
 
 // Update the count down every 1 second
@@ -42,7 +42,7 @@ var x = setInterval(function() {
     countdownWrapper.style.opacity = '0';
     setTimeout(function() {
       countdownWrapper.style.display = 'none';
-      birthdayWrapper.style.display = 'flex';
+      birthdayWrapper.style.display = 'block';
       setTimeout(function() {
         birthdayWrapper.style.opacity = '1';
       }, 50);

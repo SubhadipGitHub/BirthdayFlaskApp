@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Food Recommendations{% endblock %}
+
+{% block content %}
+<style>
+
+.waves-effect {
+    z-index: 0;
+}
+
+.btn-large {
+    padding: 0;
+}
+
+    @import url(https://fonts.googleapis.com/css?family=Raleway);
+body{
+  font-family: 'Raleway', sans-serif;
+  background:#3E4651;
+}
+.list-choice{
+  width:50%;
+  margin:1em auto;
+  position: relative;
+  cursor: pointer;  
+}
+.list-choice input[type="radio"]{
+  position:absolute;
+  left:-9999px;
+}
+
+.list-choice-title {
+width: 100%;
+display: block;
+background: #D8D8D8;
+text-align: center;
+box-sizing: border-box;
+color: #FFF;
+text-shadow: 0 1px 0 #CACACA;
+border-radius: 0.2em;
+}
+.list-choice:hover .list-choice-title {
+border-radius:0.2em 0.2em 0 0;
+}
+.list-choice-objects label:nth-last-of-type(1) span{
+  border-radius:0 0 0.2em 0.2em;
+}
+.list-choice input[type="radio"] + span {
+color: #FFF;
+background: #D8D8D8;
+display: flex;
+text-align: center;
+box-sizing: border-box;
+cursor: pointer;
+width: 100%;
+}
+.list-choice-objects {
+position: absolute;
+top: 0;
+padding-top: 2.1em;
+box-sizing: border-box;
+width: 100%;
+overflow: hidden;
+max-height: 0;
+transition: all 250ms ease;
+}
+.list-choice:hover .list-choice-objects  input[type="radio"] + span {
+position: relative;
+top: 0;
+transition: all 250ms ease-in-out;
+}
+.list-choice:hover input[type="radio"] + span:hover {
+background:#BBB;
+}
+.list-choice:hover input[type="radio"]:checked + span:hover {
+background:#74D68E;
+}
+.list-choice input[type="radio"]:checked + span {
+background: #74D68E;
+position: absolute;
+top: 0em;
+border-radius: 0.2em;
+}
+.list-choice:hover input[type="radio"]:checked + span {
+border-radius: 0;
+}
+.list-choice:hover .list-choice-objects label:nth-last-of-type(1) input[type="radio"]:checked + span{
+  border-radius:0 0 0.2em 0.2em;
+}
+
+.list-choice:hover .list-choice-objects {
+max-height: 540px;
+}
+</style>
+    <div class="container">
+        <h3>Food Recommendations</h3>
+        <form id="recipe-form" method="POST">
+            <div class="list-choice">
+                <div class="list-choice-title">Cuisine</div>
+                <div class="list-choice-objects">
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>South Indian</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Punjabi</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Bengali</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Odia</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Italian</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>American</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Japanese</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Chinese</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="cuisine"/>                         <span>Continental</span>
+                  </label>
+                </div>
+              </div>
+            <button class="waves-effect waves-light btn-large" type="submit">Search</button>
+        </form>
+        <div id="recipes-list" class="grid-container">
+            {% for recipe in search_results %}
+                <div class="recipe-card">
+                    <a href="https://www.youtube.com/watch?v={{ recipe.id.videoId }}" target="_blank">
+                        <img src="{{ recipe.snippet.thumbnails.medium.url }}" alt="{{ recipe.snippet.title }}" class="recipe-thumbnail">
+                    </a>
+                    <h3 class="recipe-title">{{ recipe.snippet.title }}</h3>
+                    <button class="share-button" onclick="shareOnWhatsApp('{{ recipe.snippet.title }}', 'https://www.youtube.com/watch?v={{ recipe.id.videoId }}')">Share on WhatsApp</button>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <!-- Include Axios for making API requests -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Function to share on WhatsApp -->
+    <script>
+        function shareOnWhatsApp(title, url) {
+            const message = encodeURIComponent(`Check out this recipe: ${title}\n${url}`);
+            window.open(`https://wa.me/?text=${message}`, '_blank');
+        }
+    </script>
+
+    <!-- Additional CSS for Recipes -->
+    <style>
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 16px; /* Space between grid items */
+        }
+
+        .recipe-card {
+            display: block;
+            flex: 1 1 calc(33.333% - 16px); /* Flex basis with space for gaps */
+            max-width: calc(33.333% - 16px); /* Ensure items don't exceed their flex basis */
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 16px;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .recipe-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .recipe-title {
+            font-size: 1.2em;
+            margin: 8px 0;
+        }
+
+        .share-button {
+            padding: 8px 16px;
+            font-size: 1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .share-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .recipe-card {
+                flex: 1 1 calc(50% - 16px); /* Two items per row on medium screens */
+                max-width: calc(50% - 16px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .recipe-card {
+                flex: 1 1 calc(100% - 16px); /* One item per row on small screens */
+                max-width: calc(100% - 16px);
+            }
+        }
+    </style>
+{% endblock %}
