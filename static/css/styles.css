@@ -42,7 +42,7 @@ nav ul li a:hover {
 
 /*oerride material style*/
 nav ul a:hover {
-    background-color: rgba(241, 180, 221, 0.1);
+    background-color: darkslategray;
     border-radius: 10px;
 }
 

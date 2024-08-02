@@ -1,7 +1,7 @@
 // Set the date we're counting down to
 var countDownDate = new Date("Aug 2, 2024 00:00:00").getTime();
 
-var message = "Happy Birthday Rim ,to the most wonderful person in my life. You light up my world and make every day special. I love you more than words can express.";
+var message = "Happy Birthday Rim ,You are an amazing persion with an incredibly positive,jolly and fun loving attitude.";
 var gif_url = "https://media.tenor.com/DhFPo_LQGt4AAAAj/alice-sticker-alice-animated.gif";
 
 // Update the count down every 1 second
