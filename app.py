@@ -15,10 +15,10 @@ config = load_config()
 # Example API key (replace with your own)
 YOUTUBE_API_KEY = config['youtube_api_key']
 
-# MongoDB client setup
+# MongoDB connection
 client = MongoClient(config['mongodb_uri'])
-db = client.travel_recommendations
-traveled_places_collection = db.traveled_places
+db = client['Alfred']
+wishlist_places_collection = db['wishlist_places']
 
 @app.route('/')
 def countdown():
@@ -30,22 +30,35 @@ def travel_recommendation():
     # Existing travel recommendation logic
     return render_template('travel_recommendation.html')
 
-@app.route('/mark_traveled', methods=['POST'])
-def mark_traveled():
-    place_name = request.form['place_name']
-    date_traveled = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    
-    traveled_places_collection.insert_one({
-        'place_name': place_name,
-        'date_traveled': date_traveled
-    })
-    
-    return redirect(url_for('travel_recommendation'))
+@app.route('/save_place', methods=['POST'])
+def save_place():
+    try:
+        data = request.json
+        data['date'] = datetime.now()
+        print('Data received for saving:', data)  # Debug statement
+        wishlist_places_collection.update_one(
+            {"name": data['name'], "lat": data['lat'], "lng": data['lng']},
+            {"$set": data},
+            upsert=True
+        )
+        response = {"status": "success", "data": data}
+        print('Response:', response)  # Debug statement
+        return jsonify(response)
+    except Exception as e:
+        print('Error:', e)  # Debug statement
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/traveled_places', methods=['GET'])
-def traveled_places():
-    traveled_places = list(traveled_places_collection.find({}, {'_id': 0}))
-    return jsonify(traveled_places)
+@app.route('/get_places', methods=['GET'])
+def get_places():
+    try:
+        traveled = list(wishlist_places_collection.find({"isTraveled": True}))
+        untraveled = list(wishlist_places_collection.find({"isTraveled": False}))
+        response = {"traveled": traveled, "untraveled": untraveled}
+        print('Places fetched:', response)  # Debug statement
+        return jsonify(response)
+    except Exception as e:
+        print('Error:', e)  # Debug statement
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 @app.route('/food_recommendation', methods=['GET', 'POST'])
 def food_recommendation():
@@ -53,7 +66,8 @@ def food_recommendation():
 
     if request.method == 'POST':
         selected_cuisines = request.form.get('cuisine')
-        search_query = f'Best recommended {selected_cuisines} cuisine'
+        print(selected_cuisines)
+        search_query = f'Unique {selected_cuisines} cuisine recipes'
 
         # Fetch videos based on search query
         search_url = 'https://www.googleapis.com/youtube/v3/search'
@@ -62,7 +76,9 @@ def food_recommendation():
             'q': search_query,
             'type': 'video',
             'key': YOUTUBE_API_KEY,
-            'maxResults': 10
+            'maxResults': 10,
+            'order': 'viewCount',  # Order by view count to find popular videos
+            'regionCode': 'US'    # Adjust region if needed
         }
         response = requests.get(search_url, params=params)
         search_results = response.json().get('items', [])
