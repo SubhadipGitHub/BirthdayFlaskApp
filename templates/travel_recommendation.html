@@ -34,6 +34,41 @@
         <br>
         <br>
         <br>
+        <div class="recommendation-wrapper">
+            <div class="destination-results">
+                {% if destinations %}
+                    <h3>Travel Destinations</h3>
+                    <div class="destination-grid">
+                        {% for place in destinations %}                        
+                            <div class="destination-item" id="destination-item" data-id="{{ place._id }}">                                 
+                                <img src="{{ place.photo }}" alt="{{ place.name }}" class="destination-image">    
+                                {% if place.travelled %}
+                                    <span class="checkmark material-icons">check_circle</span>
+                                {% endif %}                                
+                                <div class="destination-details">
+                                    <h4>{{ place.name }}</h4>                                        
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No destinations found. Try adding some to your wishlist!</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="destination-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">×</span>
+                <h4 id="modal-title">Destination Details</h4>
+                <form id="update-destination-form">
+                    <input type="text" id="marker-name" name="name" value="Goa" readonly><br><br>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+
         <div id="places-list">
             <!-- Dynamic list of places will be added here -->
         </div>
@@ -45,6 +80,7 @@
     <!-- Include Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script async src="//www.instagram.com/embed.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- Material Icons -->
 
     <script>
         // Ensure the DOM is fully loaded before running the script
@@ -121,21 +157,33 @@
             addMarkers();
 
             // Modal functionality
-            var modal = document.getElementById("addMarkerModal");
-            var btn = document.getElementById("add-marker-btn");
-            var span = document.getElementsByClassName("close")[0];
+            var addmarkermodal = document.getElementById("addMarkerModal");
+            var destinationmodal = document.getElementById("destination-modal");
+            var destinationitembtn = document.getElementById("destination-item");
+            var addmarkerbtn = document.getElementById("add-marker-btn");
+            var addmarkespan = document.getElementsByClassName("close")[0];
+            var updatedestspan = document.getElementsByClassName("close")[1];
 
-            btn.onclick = function() {
-                modal.style.display = "block";
+            destinationitembtn.onclick = function() {
+                destinationmodal.style.display = "block";
             }
 
-            span.onclick = function() {
-                modal.style.display = "none";
+            addmarkerbtn.onclick = function() {
+                addmarkermodal.style.display = "block";
+            }
+
+            addmarkespan.onclick = function() {
+                addmarkermodal.style.display = "none";
+            }
+
+            updatedestspan.onclick = function() {
+                destinationmodal.style.display = "none";
             }
 
             window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+                if ((event.target == addmarkermodal) || (event.target == destinationmodal)) {
+                    addmarkermodal.style.display = "none";
+                    destinationmodal.style.display = "none";
                 }
             }
 
@@ -152,7 +200,7 @@
                 listItem.innerHTML = '<input type="checkbox" checked> ' + name;
                 document.getElementById('places-list').appendChild(listItem);
 
-                modal.style.display = "none";
+                addmarkermodal.style.display = "none";
             };
         });
     </script>
@@ -185,7 +233,6 @@
             top: 0;
             width: 60%; 
             height: 100%; 
-            overflow: auto; 
             background-color: transparent; 
             margin-top: 10px;
         }
@@ -217,6 +264,84 @@
         .instagram-grid blockquote {
             margin: 0;
             padding: 0;
+        }
+
+        /* Custom styles */
+        .destination-item
+        {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .destination-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .destination-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .destination-image {
+            height: 150px;
+            object-fit: cover;
+            border-radius: 80px;
+            margin-top: 5px;
+        }
+
+        .card-title {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 0 10px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Content styling */
+        .destination-content {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .destination-info {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .destination-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #0288d1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .destination-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Checkmark icon styling */
+        .checkmark {
+            position: absolute;
+            font-size: 24px;
+            color: #4caf50;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .transparent-button {
+            background: transparent;
+            border: none !important;
         }
     </style>
 {% endblock %}

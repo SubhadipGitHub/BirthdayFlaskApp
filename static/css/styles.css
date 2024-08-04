@@ -5,7 +5,10 @@ body {
     padding: 0;
     color: #333;
     text-align: center; /* Center-align text by default */
-    background-color: #f0f0f0; /* General background color */
+    background: url(https://png.pngtree.com/back_origin_pic/04/48/50/84cd2a9fbc6cbd5522b2f048a56703a8.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 nav {
@@ -113,7 +116,7 @@ form button:hover {
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
-    margin: 0 auto;
+    margin-bottom: 50px;
     padding: 0;
 }
 
