@@ -182,4 +182,6 @@ def song_recommendation():
     return render_template('song_recommendation.html', search_results=search_results)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    HOST = '0.0.0.0'
+    PORT = 80
+    app.run(host=HOST, port=PORT, debug=True)

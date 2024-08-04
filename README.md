@@ -76,6 +76,23 @@ When the countdown ends, the application smoothly transitions from the countdown
 - Flask
 - Jinja2
 
+## Setup
+
+### Prerequisites
+
+- Docker installed on your machine.
+
+### Steps to Run the Application
+
+1. **Build the Docker image from the Dockerfile**
+
+   ```sh
+   docker build -t python-docker-birthdayapp .
+
+2. **Run the docker image**
+   ```sh
+   docker container run -dit -p 80:80 python-docker-birthdayapp
+
 ## Contributing
 
 Feel free to submit issues or pull requests. Contributions are welcome!
